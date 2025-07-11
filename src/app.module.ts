@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MulterModule } from '@nestjs/platform-express';
 import { AccountsModule } from './modules/accounts/accounts.module';
 import { RidesModule } from './modules/rides/rides.module';
-import { NavigationModule } from './modules/navigation/navigation.module';
+import { NavigationModule } from './modules/rides/navigation-socket/navigation.module';
 import { ReportsModule } from './modules/reports/reports.module';
 
 @Module({

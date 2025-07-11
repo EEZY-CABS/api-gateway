@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+package rides;
+
+service RideService {
+  rpc GetRides(GetRidesRequest) returns (GetRidesResponse);
+  rpc GetRide(GetRideRequest) returns (GetRideResponse);
+  rpc CreateRide(CreateRideRequest) returns (CreateRideResponse);
+  rpc BookRide(Booking) returns (Response);
+  rpc OngoingRide(RideId) returns (Booking);
+  rpc UpdateRide(Booking) returns (Response);
+  rpc CancelRide(RideId) returns (Response);
+  rpc AvailDrivers(Coordinates) returns (Driver);
+  rpc StreamMessages(stream ChatMessage) returns (stream StreamMessagesResponse);
+  rpc GetPreviousMessages(ChatRequest) returns (ChatHistoryResponse);
+}
+
+message Empty {}
+
+message GetRidesRequest {
+  string userId = 1;
+}
+
+message GetRideRequest {
+  string rideId = 1;
+}
+
+message GetRideResponse {
+  string message = 1;
+}
+
+message GetRidesResponse {
+  string rideId = 1;
+}
+
+message CreateRideRequest {
+  string userId = 1;
+  string pickupLocation = 2;
+  string dropLocation = 3;
+}
+
+message  CreateRideResponse {
+  string message = 1;
+}
+
+message Ride {
+  string rideId = 1;
+  string userId = 2;
+  string pickupLocation = 3;
+  string dropLocation = 4;
+  string status = 5;
+  Location currentLocation = 6;
+}
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+  string address = 3;
+}
+
+
+message Response {
+     bool success = 1;
+     string messsage = 2;
+}
+
+message RideId {
+     string rideId = 1;
+     string userId = 2;
+     string driverId = 3;
+}
+
+message Booking {
+     string userId = 1;
+     string driverId = 2;
+     string paymentId = 3;
+     string pickupLocation = 4;
+     string dropLocation =5;
+     string couponId = 6;
+     string status = 7;
+     string rideId = 8;
+}
+
+message Coordinates {
+     double lat = 1;
+     double lng = 2;
+}
+
+message Driver {
+     bool success = 1;
+     string message = 2;
+     driversWithVehicles drivers = 3;
+}
+
+message driversWithVehicles {
+     string userId = 1;
+     string name = 2;
+     string vehicleModel = 3;
+}
+
+message ChatMessage {
+  string rideId = 1; 
+  string senderId = 2;
+  string message = 3;
+  int32 timestamp = 4;
+}
+
+message ChatRequest {
+  string rideId = 1;  
+}
+
+message ChatHistoryResponse {
+  string rideId = 1;
+  repeated ChatMessage messages = 2;
+}
+
+message StreamMessagesResponse {
+  ChatMessage chatMessage = 1;
+}

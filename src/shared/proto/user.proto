@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc UpsertDetails(DetailsRequest) returns (DetailsResponse);
+  rpc FetchDetails(UserId) returns (DetailsResponse);
+  rpc UserOtpSend(Data) returns (OtpResponse);
+  rpc UpdateImage(UpdateImageRequest) returns (Response);
+}
+
+message UserId {
+  string userId = 1;
+}
+
+message Data {
+  string email = 1;
+  string name = 2;
+}
+
+message DetailsRequest {
+  string userId = 1;
+  string phone =  2;
+  string name = 3;
+  NotificationPreference notificationPreference = 4;
+}
+
+message DetailsResponse {
+  bool success = 1;
+  string message = 2;
+  Details details = 3;
+}
+
+message NotificationPreference {
+  bool sms = 1;
+  bool email = 2;
+}
+
+message Details {
+  string name = 1;
+  string profilePhoto = 2;
+  NotificationPreference notificationPreferences = 3;
+  string trips = 4;
+  string email = 5;
+  string phone = 6;
+  string createdAt = 7;
+}
+
+message UpdateImageRequest {
+    string filename = 1;
+    string contentType = 2;
+    string imageData = 3;
+    string userId = 4;
+}
+
+message Response {
+  bool success = 1;
+  string message = 2;
+}

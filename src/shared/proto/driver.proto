@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package driver;
+
+service DriverService {
+  rpc AddDetails(DetailsRequest) returns (DetailsResponse);
+  rpc UpdateDetails(DetailsRequest) returns (DetailsResponse);
+  rpc FetchDetails(DriverId) returns (DetailsResponse);
+  rpc KYCEdit(KycDetails) returns (Response);
+  rpc CheckKyc(DriverId) returns (KycDetails);
+  rpc ShiftUpdate(ShiftUpdateRequest) returns (ShiftUpdateResponse);
+}
+
+message DriverId {
+  string userId = 1;
+}
+message Response {
+  bool success = 1;
+  string message = 2;
+  string field = 3;
+}
+enum KYCStatus {
+  PENDING = 1;
+  SUBMITTED = 2;
+  REJECTED = 3;
+  APPROVED = 4;
+}
+message KycDetails {
+  string userId = 1;
+  string driverLicense = 2;
+  KYCStatus kycStatus = 3;
+  string reason = 4;
+  string experience = 5;
+  string vehicleNumber = 6;
+  string chassisNumber = 7;
+  string insuranceNumber = 8;
+  string insuranceExpiry = 9;
+  string registrationDate = 10;
+  string vehicleMake = 11;
+  string vehicleModel = 12;
+  int32 yearOfManufacture = 13;
+  bool success = 14;
+  string message = 15;
+}
+message Driver {
+  string userId = 1;
+  string name = 2;
+  string email = 3;
+}
+message DetailsRequest {
+  string userId = 1;
+  string profilePhoto = 2;
+  string driverLicense = 3;
+  string experience = 4;
+}
+message DetailsResponse {
+  bool success = 1;
+  string message = 2;
+  Details details = 3;
+}
+message Details {
+  string userId = 1;
+  string profilePhoto = 2;
+  string driverLicense = 3;
+  string experience = 4;
+}
+enum ShiftAction {
+  CHECKSHIFT = 1;
+  CLOCKIN = 2;
+  CLOCKOUT = 3;
+}
+message ShiftUpdateRequest {
+  string userId = 1;
+  ShiftAction shiftAction = 2;
+}
+message ShiftUpdateResponse {
+  bool success = 1;
+  string message = 2;
+  int32 shiftActive = 3;
+  repeated Ride rides = 4;
+}
+message Ride {
+  string pickup_location = 3;
+  string drop_location = 4;
+  RideStatus status = 5;
+}
+enum RideStatus {
+  PENDING = 1;
+  ONGOING = 2;
+  COMPLETED = 3;
+  CANCELLED = 4;
+}

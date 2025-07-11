@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package navigation;
+
+service NavigationService {
+  rpc UpdateRide(UpdateRideRequest) returns (stream UpdateRideResponse);
+  rpc StreamLocation(LocationRequest) returns (stream LocationResponse);
+}
+
+message UpdateRideRequest {
+  string rideId = 1;
+  string status = 2;
+}
+
+message UpdateRideResponse {
+  bool success = 1;
+  string message = 2;
+  RideStatus status = 3;
+}
+
+message LocationRequest {
+  string rideId = 1;
+  string userId = 2;
+  string driverId = 3;
+}
+
+message LocationResponse {
+  string rideId = 1;
+  double latitude = 2;
+  double longitude = 3;
+  RideStatus status = 4;
+}
+
+message RideStatus {
+  string status = 1;
+  string timestamp = 2;
+  Location currentLocation = 3;
+}
+
+message Location {
+  double latitude = 1;
+  double longitude = 2;
+  string address = 3;
+}

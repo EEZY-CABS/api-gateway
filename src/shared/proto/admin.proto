@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package admin;
+
+service AdminService {
+  rpc ViewUsers(Empty) returns (Accounts);
+  rpc ViewDrivers(Empty) returns (Accounts);
+  rpc ViewDriverDetails(Id) returns (Driver);
+  rpc PendingKYC(Empty) returns (Accounts);
+  rpc DriverKYC(Id) returns (Driver);
+  rpc ApproveKYC(Action) returns (ApprovalDetails);
+  rpc UserAction(Id) returns (Response);
+}
+
+message Empty {}
+
+message Id {
+  string userId = 1;
+  string role = 2;
+}
+message Response {
+  bool success = 1;
+  string message = 2;
+}
+message Account {
+  string userId = 1;
+  string email = 2;
+  string name = 3;
+  string phone = 4;
+  string kyc_status = 5;
+  string createdAt = 6;
+  bool status = 7;
+}
+message Accounts {
+  bool success = 1;
+  string message = 2;
+  repeated Account users = 3;
+}
+message Driver {
+  bool success = 1;
+  string message = 2;
+  Account driver = 3;
+  DriverDetail detail = 4;
+  Vehicle vehicle = 5;
+}
+message DriverDetail {
+  string driverLicense = 1;
+  string experience = 2;
+}
+message Vehicle {
+  int32  vehicleId = 1;       
+  string vehicleNo = 2;        
+  string chassisNo = 3;     
+  string insuranceNo = 4;
+  string insuranceExpiry = 5;
+  string registrationDate = 6;
+  string vehicleMake = 7;
+  string vehicleModel = 8;   
+  int32  yearOfManufacture = 9;
+}
+message ApprovalDetails {
+  bool isApproved = 1;
+  string message = 2;
+}
+message Action {
+  string userId = 1;
+  bool approval = 2;
+  string reason = 3;
+}
